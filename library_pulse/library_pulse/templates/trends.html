@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Trends &middot; Library Pulse{% endblock %}
+{% block content %}
+{% set active = 'trends' %}
+<div class="page-header">
+  <span class="eyebrow">Shelf report &middot; G&ndash;M</span>
+  <h2>Trends &amp; Top Books</h2>
+  <p>Filter by genre to see which titles are driving checkouts right now.</p>
+</div>
+
+<div class="filter-bar">
+  <label for="genreSelect">Genre</label>
+  <select id="genreSelect" onchange="location.href='/trends?genre='+this.value">
+    {% for g in genres %}
+      <option value="{{ g }}" {{ 'selected' if g == selected_genre }}>{{ g }}</option>
+    {% endfor %}
+  </select>
+</div>
+
+<div class="panel-grid">
+  <div class="panel">
+    <h3>Top 10 Books{% if selected_genre != 'All' %} &mdash; {{ selected_genre }}{% endif %}</h3>
+    <div id="topChart" class="chart tall"></div>
+  </div>
+  <div class="panel">
+    <h3>Genre Popularity Over Time</h3>
+    <div id="genreChart" class="chart tall"></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Top Books Detail</h3>
+  <table class="data-table">
+    <tr><th>Title</th><th>Author</th><th>Genre</th><th>Checkouts</th><th></th></tr>
+    {% for b in top_books %}
+    <tr>
+      <td>{{ b.title }}</td>
+      <td>{{ b.author }}</td>
+      <td>{{ b.genre }}</td>
+      <td>{{ b.checkouts }}</td>
+      <td><a href="/book/{{ b.book_id }}">View &rarr;</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<script>
+  const commonConfig = {displayModeBar:false, responsive:true};
+  Plotly.newPlot('topChart', JSON.parse('{{ top_fig|safe }}').data, JSON.parse('{{ top_fig|safe }}').layout, commonConfig);
+  Plotly.newPlot('genreChart', JSON.parse('{{ genre_fig|safe }}').data, JSON.parse('{{ genre_fig|safe }}').layout, commonConfig);
+</script>
+{% endblock %}

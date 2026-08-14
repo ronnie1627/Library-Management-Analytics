@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Members &middot; Library Pulse{% endblock %}
+{% block content %}
+{% set active = 'members' %}
+<div class="page-header">
+  <span class="eyebrow">Reader file &middot; D&ndash;F</span>
+  <h2>Member Segments</h2>
+  <p>KMeans clustering on Recency, Frequency, and fines (RFM) groups readers into behavior segments &mdash; so the library can target outreach instead of guessing.</p>
+</div>
+
+<div class="segment-cards">
+  {% for s in segment_summary %}
+  <div class="segment-card">
+    <div class="seg-name">{{ s.segment }}</div>
+    <div class="seg-stat">{{ s.members }} members</div>
+    <div class="seg-stat">Avg. {{ s.avg_frequency }} checkouts</div>
+    <div class="seg-stat">Avg. fines ${{ s.avg_fines }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="panel-grid">
+  <div class="panel">
+    <h3>Member Segments (Recency vs Frequency)</h3>
+    <div id="segChart" class="chart tall"></div>
+  </div>
+  <div class="panel">
+    <h3>Members per Segment</h3>
+    <div id="countsChart" class="chart tall"></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Overdue Rate by Membership Type</h3>
+  <div id="overdueChart" class="chart"></div>
+</div>
+
+<script>
+  const commonConfig = {displayModeBar:false, responsive:true};
+  Plotly.newPlot('segChart', JSON.parse('{{ seg_fig|safe }}').data, JSON.parse('{{ seg_fig|safe }}').layout, commonConfig);
+  Plotly.newPlot('countsChart', JSON.parse('{{ counts_fig|safe }}').data, JSON.parse('{{ counts_fig|safe }}').layout, commonConfig);
+  Plotly.newPlot('overdueChart', JSON.parse('{{ overdue_fig|safe }}').data, JSON.parse('{{ overdue_fig|safe }}').layout, commonConfig);
+</script>
+{% endblock %}
