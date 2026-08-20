@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }} &middot; Library Pulse{% endblock %}
+{% block content %}
+{% set active = 'trends' %}
+<div class="page-header">
+  <span class="eyebrow">Catalog card</span>
+  <h2>{{ book.title }}</h2>
+  <p>by {{ book.author }} &middot; {{ book.genre }} &middot; {{ book.publish_year }} &middot; {{ checkouts }} lifetime checkouts</p>
+</div>
+
+<div class="panel">
+  <h3>Readers who borrowed this also borrowed</h3>
+  <table class="data-table">
+    <tr><th>Title</th><th>Author</th><th>Shared Readers</th></tr>
+    {% for r in recs %}
+    <tr>
+      <td><a href="/book/{{ r.book_id }}">{{ r.title }}</a></td>
+      <td>{{ r.author }}</td>
+      <td>{{ r.shared_readers }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
