@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Insights &middot; Library Pulse{% endblock %}
+{% block content %}
+{% set active = 'insights' %}
+<div class="page-header">
+  <span class="eyebrow">Reference desk &middot; S&ndash;Z</span>
+  <h2>What the Data Shows</h2>
+  <p>A plain-language reading of the patterns behind the charts &mdash; the "so what" for each panel.</p>
+</div>
+
+<div class="insight-block">
+  <h4>Sci-Fi and Technology are pulling ahead</h4>
+  <p>Both genres show a steady upward slope across the two-year window while most other genres stay flat, a signal worth acting on for next quarter's acquisitions budget.</p>
+</div>
+
+<div class="insight-block">
+  <h4>Exam months double the load</h4>
+  <p>March&ndash;April and October&ndash;November see roughly 1.8&times; the checkout volume of a typical month, while June&ndash;July and December are quiet. Staffing and hold-shelf capacity could flex around this rhythm instead of staying flat year-round.</p>
+</div>
+
+<div class="insight-block">
+  <h4>A small group drives most of the overdue problem</h4>
+  <p>The "Fine-Prone" segment is a minority of members but accounts for a disproportionate share of late returns and fines &mdash; a short reminder-email campaign targeted at just this group would likely move the overdue rate more than a blanket policy change.</p>
+</div>
+
+<div class="insight-block">
+  <h4>Central Library carries the branch load</h4>
+  <p>One branch handles a visibly larger share of circulation than the other three combined, which is useful context if the next step is deciding where to expand hours or add copies.</p>
+</div>
+
+<div class="insight-block">
+  <h4>Afternoons on weekdays are peak hours</h4>
+  <p>The day/hour heatmap shows a clear concentration in weekday afternoons, with weekends and early mornings consistently quiet &mdash; useful for scheduling staff and planning maintenance windows.</p>
+</div>
+{% endblock %}

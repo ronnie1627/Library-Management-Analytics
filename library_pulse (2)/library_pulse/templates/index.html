@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Overview &middot; Library Pulse{% endblock %}
+{% block content %}
+{% set active = 'overview' %}
+<div class="page-header">
+  <span class="eyebrow">Circulation desk &middot; live read</span>
+  <h2>The collection, in motion.</h2>
+  <p>Every checkout, return, and late fee across two years and four branches &mdash; distilled into the patterns that matter for how this library actually runs.</p>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi-card"><div class="kpi-label">Total checkouts</div><div class="kpi-value" data-count="{{ kpis.raw.total_checkouts }}">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Active members</div><div class="kpi-value" data-count="{{ kpis.raw.active_members }}">0</div></div>
+  <div class="kpi-card"><div class="kpi-label">Overdue rate</div><div class="kpi-value" data-count="{{ kpis.raw.overdue_rate }}" data-suffix="%">0%</div></div>
+  <div class="kpi-card"><div class="kpi-label">Fines collected</div><div class="kpi-value" data-count="{{ kpis.raw.total_fines }}" data-prefix="$">$0</div></div>
+</div>
+
+<div class="panel">
+  <h3>Genre Popularity Over Time</h3>
+  <div id="genreChart" class="chart"></div>
+</div>
+
+<div class="panel-grid">
+  <div class="panel">
+    <h3>Checkout Activity by Day &amp; Hour</h3>
+    <div id="heatmapChart" class="chart"></div>
+  </div>
+  <div class="panel">
+    <h3>Circulation Volume by Branch</h3>
+    <div id="branchChart" class="chart"></div>
+  </div>
+</div>
+
+<script>
+  const commonConfig = {displayModeBar:false, responsive:true};
+  Plotly.newPlot('genreChart', JSON.parse('{{ genre_fig|safe }}').data, JSON.parse('{{ genre_fig|safe }}').layout, commonConfig);
+  Plotly.newPlot('heatmapChart', JSON.parse('{{ heatmap_fig|safe }}').data, JSON.parse('{{ heatmap_fig|safe }}').layout, commonConfig);
+  Plotly.newPlot('branchChart', JSON.parse('{{ branch_fig|safe }}').data, JSON.parse('{{ branch_fig|safe }}').layout, commonConfig);
+</script>
+{% endblock %}

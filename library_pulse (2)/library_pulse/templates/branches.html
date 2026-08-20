@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Branches &middot; Library Pulse{% endblock %}
+{% block content %}
+{% set active = 'branches' %}
+<div class="page-header">
+  <span class="eyebrow">Circuit map &middot; N&ndash;R</span>
+  <h2>Branch Comparison</h2>
+  <p>Where the load concentrates, and which branches carry the most overdue pressure.</p>
+</div>
+
+<div class="panel-grid">
+  <div class="panel">
+    <h3>Circulation Volume by Branch</h3>
+    <div id="branchChart" class="chart tall"></div>
+  </div>
+  <div class="panel">
+    <h3>Checkout Activity by Day &amp; Hour</h3>
+    <div id="heatmapChart" class="chart tall"></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Branch Detail</h3>
+  <table class="data-table">
+    <tr><th>Branch</th><th>Checkouts</th><th>Avg. Late Days</th><th>Total Fines</th></tr>
+    {% for b in branch_table %}
+    <tr>
+      <td>{{ b.name_branch }}</td>
+      <td>{{ b.checkouts }}</td>
+      <td>{{ b.avg_late_days }}</td>
+      <td>${{ b.total_fines }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<script>
+  const commonConfig = {displayModeBar:false, responsive:true};
+  Plotly.newPlot('branchChart', JSON.parse('{{ branch_fig|safe }}').data, JSON.parse('{{ branch_fig|safe }}').layout, commonConfig);
+  Plotly.newPlot('heatmapChart', JSON.parse('{{ heatmap_fig|safe }}').data, JSON.parse('{{ heatmap_fig|safe }}').layout, commonConfig);
+</script>
+{% endblock %}
